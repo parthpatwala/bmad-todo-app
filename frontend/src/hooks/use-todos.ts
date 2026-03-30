@@ -78,11 +78,16 @@ export function useTodos() {
     todos: todosQuery.data ?? [],
     isLoading: todosQuery.isLoading,
     isError: todosQuery.isError,
+    refetch: todosQuery.refetch,
     addTodo: addMutation.mutate,
     addError: addMutation.error?.message ?? null,
     resetAddError: addMutation.reset,
     toggleTodo: (id: number, completed: boolean) =>
       toggleMutation.mutate({ id, completed }),
+    toggleError: toggleMutation.error?.message ?? null,
+    resetToggleError: toggleMutation.reset,
     deleteTodo: deleteMutation.mutate,
+    deleteError: deleteMutation.error?.message ?? null,
+    resetDeleteError: deleteMutation.reset,
   };
 }

@@ -39,3 +39,11 @@
 - Enter-to-submit during IME composition — pre-existing from Story 1.3.
 - No maxLength attribute on input element — users can paste very long strings; validated on submit. Cosmetic.
 - Non-handler Fastify 400 bodies may use different JSON shape — schema validation errors may lack `message` field; client falls back to generic message.
+
+## Deferred from: code review of story 2-2-loading-empty-and-error-states (2026-03-30)
+
+- Only one mutation error surfaced when both toggle and delete fail — `toggleError || deleteError` masks the second error; low probability in single-user MVP.
+- Optimistic rollback skipped when previous is undefined — pre-existing from Story 1.3; onSettled invalidation recovers state.
+- No loading indicator during retry after fetch error — `isLoading` stays false on refetch; would need `isFetching`. UX polish.
+- Fetch error message from API parsed dynamically but hard-coded in TodoPage — user-friendly default is acceptable for MVP.
+- Retry button has no disabled/pending state — rapid clicks can trigger multiple refetches; TanStack Query deduplicates.

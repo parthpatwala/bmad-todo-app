@@ -6,7 +6,16 @@ const API_BASE = '/api/todos';
 
 export async function fetchTodos(): Promise<Todo[]> {
   const response = await fetch(API_BASE);
-  if (!response.ok) throw new Error('Failed to fetch todos');
+  if (!response.ok) {
+    let message = 'Unable to load todos. Please try again.';
+    try {
+      const body = await response.json();
+      if (body.message) message = body.message;
+    } catch {
+      // non-JSON response
+    }
+    throw new Error(message);
+  }
   return response.json();
 }
 
@@ -22,7 +31,7 @@ export async function createTodo(description: string): Promise<Todo> {
       const body = await response.json();
       if (body.message) message = body.message;
     } catch {
-      // non-JSON response — use generic message
+      // non-JSON response
     }
     throw new Error(message);
   }
@@ -35,7 +44,16 @@ export async function toggleTodo(id: number, completed: boolean): Promise<Todo> 
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ completed }),
   });
-  if (!response.ok) throw new Error('Failed to update todo');
+  if (!response.ok) {
+    let message = 'Failed to update todo. Please try again.';
+    try {
+      const body = await response.json();
+      if (body.message) message = body.message;
+    } catch {
+      // non-JSON response
+    }
+    throw new Error(message);
+  }
   return response.json();
 }
 
@@ -43,5 +61,14 @@ export async function deleteTodo(id: number): Promise<void> {
   const response = await fetch(`${API_BASE}/${id}`, {
     method: 'DELETE',
   });
-  if (!response.ok) throw new Error('Failed to delete todo');
+  if (!response.ok) {
+    let message = 'Failed to delete todo. Please try again.';
+    try {
+      const body = await response.json();
+      if (body.message) message = body.message;
+    } catch {
+      // non-JSON response
+    }
+    throw new Error(message);
+  }
 }
