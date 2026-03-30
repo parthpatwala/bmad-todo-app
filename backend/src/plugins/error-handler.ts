@@ -1,4 +1,5 @@
 import type { FastifyInstance, FastifyError } from 'fastify';
+import fp from 'fastify-plugin';
 
 const STATUS_CODE_MAP: Record<number, string> = {
   400: 'VALIDATION_ERROR',
@@ -9,7 +10,7 @@ const STATUS_CODE_MAP: Record<number, string> = {
   429: 'TOO_MANY_REQUESTS',
 };
 
-export async function errorHandler(app: FastifyInstance) {
+export const errorHandler = fp(async function errorHandler(app: FastifyInstance) {
   app.setErrorHandler((error: FastifyError, _request, reply) => {
     const statusCode = error.statusCode ?? 500;
     const errorCode = STATUS_CODE_MAP[statusCode] ?? 'INTERNAL_ERROR';
@@ -24,4 +25,4 @@ export async function errorHandler(app: FastifyInstance) {
 
     reply.status(statusCode).send({ error: errorCode, message });
   });
-}
+});
