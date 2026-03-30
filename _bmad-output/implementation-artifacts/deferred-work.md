@@ -11,3 +11,20 @@
 - GET /api/todos is unbounded (no pagination/limit) — single-user MVP with low data volume. Add pagination if data grows.
 - Unicode invisible characters (e.g. U+00A0 no-break space) bypass String.trim() — `trim()` handles standard ASCII whitespace. Exotic Unicode whitespace could produce visually-empty descriptions. Not actionable for personal todo MVP.
 - 413 Payload Too Large maps to INTERNAL_ERROR — error handler STATUS_CODE_MAP does not include 413. Low priority since description max is 500 chars and Fastify default body limit is 1MiB.
+
+## Deferred from: code review of story 1-3-core-todo-ui-view-add-complete-and-delete (2026-03-30)
+
+- No mutation error feedback in UI — mutations only rollback optimistic cache; no toast/banner for failed add/toggle/delete. Story 2.2 handles error states.
+- Generic errors lose HTTP status and server message — `todo-api.ts` throws `new Error('Failed to ...')` without response status or server error body. Future hardening.
+- Cached todos hidden while query is in error state — `todo-page.tsx` hides list entirely on `isError`; could show stale data with error banner. Story 2.2 scope.
+- Long unbroken description can overflow layout — `todo-item.tsx` span has no `break-words`/`overflow-wrap`. Epic 3 (responsive layout).
+- Checkbox has no accessible name (aria-label / label) — checkbox not associated with description text. Epic 4 (accessibility).
+- Enter key during IME composition can submit early — `onKeyDown` fires on Enter without `isComposing` guard. Low priority for personal MVP.
+- No guard against duplicate rapid submits — no disabled state or pending check on add button/Enter. Story 2.1 input validation.
+- Rapid toggle/delete without per-item pending guard — no disabled state during in-flight mutation per item. Low priority MVP.
+- Optimistic Date.now() ID can collide on rapid adds — two submits in same millisecond share temp ID; replaced by server on refetch. Low probability.
+- Buttons lack explicit type="button" — no form wrapping exists currently; cosmetic/defensive.
+- Malformed JSON response from server can crash — `response.json()` not wrapped in try/catch; server always returns valid JSON. Future hardening.
+- Race between initial fetch and optimistic add — user can add before initial fetch completes; cancelQueries mitigates. Edge case on slow networks.
+- onError rollback skipped when previous is undefined — only on first render before cache exists; onSettled invalidateQueries handles recovery.
+- Input usable while list is still loading — by design for fast interaction; optimistic adds work regardless.
