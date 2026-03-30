@@ -1,5 +1,7 @@
 import type { Todo } from '../types/todo';
 
+export const MAX_DESCRIPTION_LENGTH = 500;
+
 const API_BASE = '/api/todos';
 
 export async function fetchTodos(): Promise<Todo[]> {
@@ -14,7 +16,16 @@ export async function createTodo(description: string): Promise<Todo> {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ description }),
   });
-  if (!response.ok) throw new Error('Failed to create todo');
+  if (!response.ok) {
+    let message = 'Failed to create todo';
+    try {
+      const body = await response.json();
+      if (body.message) message = body.message;
+    } catch {
+      // non-JSON response — use generic message
+    }
+    throw new Error(message);
+  }
   return response.json();
 }
 

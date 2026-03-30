@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-03-30
-last_updated: 2026-03-30T18:15:00
+last_updated: 2026-03-30T18:30:00
 project: bmad-todo-app
 project_key: NOKEY
 tracking_system: file-system
@@ -50,8 +50,8 @@ development_status:
   epic-1-retrospective: optional
 
   # Epic 2: Input Validation & Error Resilience
-  epic-2: backlog
-  2-1-input-validation-and-feedback: backlog
+  epic-2: in-progress
+  2-1-input-validation-and-feedback: done
   2-2-loading-empty-and-error-states: backlog
   epic-2-retrospective: optional
 

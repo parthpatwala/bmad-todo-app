@@ -28,3 +28,14 @@
 - Race between initial fetch and optimistic add — user can add before initial fetch completes; cancelQueries mitigates. Edge case on slow networks.
 - onError rollback skipped when previous is undefined — only on first render before cache exists; onSettled invalidateQueries handles recovery.
 - Input usable while list is still loading — by design for fast interaction; optimistic adds work regardless.
+
+## Deferred from: code review of story 2-1-input-validation-and-feedback (2026-03-30)
+
+- Input text cleared before async addTodo completes — on server failure, user loses typed draft and must retype. UX polish for later.
+- Local validation error not cleared on input change — error stays visible while editing until next submit. By design (validate on submit only), but could be improved.
+- No guard against duplicate/overlapping submits — rapid clicks/Enter can enqueue multiple create calls. Same as Story 1.3 deferred finding.
+- Optimistic add rollback skipped when cache undefined — pre-existing; onSettled invalidation recovers.
+- Client vs server length rules disagree for non-BMP characters — JS string.length (UTF-16 units) vs JSON Schema maxLength (code points). Edge case with heavy emoji usage.
+- Enter-to-submit during IME composition — pre-existing from Story 1.3.
+- No maxLength attribute on input element — users can paste very long strings; validated on submit. Cosmetic.
+- Non-handler Fastify 400 bodies may use different JSON shape — schema validation errors may lack `message` field; client falls back to generic message.
