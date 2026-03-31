@@ -22,19 +22,21 @@ export function TodoItem({ todo, onToggle, onDelete, focusRef }: TodoItemProps) 
               onToggle(todo.id, !todo.completed);
             }
           }}
+          aria-label={`Mark "${todo.description}" as ${todo.completed ? 'incomplete' : 'complete'}`}
           className="h-5 w-5 shrink-0 rounded border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500"
         />
       </label>
       <span
         className={`flex-1 break-words ${
-          todo.completed ? 'text-gray-400 line-through' : 'text-gray-900'
+          todo.completed ? 'text-gray-500 line-through' : 'text-gray-900'
         }`}
       >
         {todo.description}
       </span>
       <button
         onClick={() => onDelete(todo.id)}
-        className="min-h-[44px] min-w-[44px] shrink-0 p-2 text-gray-400 hover:text-red-500 transition-colors text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        aria-label={`Delete "${todo.description}"`}
+        className="min-h-[44px] min-w-[44px] shrink-0 p-2 text-gray-500 hover:text-red-500 transition-colors text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
       >
         Delete
       </button>

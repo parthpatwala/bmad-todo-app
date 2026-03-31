@@ -50,10 +50,12 @@ export function TodoInput({ onAdd, serverError, onClearServerError, inputRef: ex
           onChange={(e) => setDescription(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="What needs to be done?"
+          aria-label="New todo description"
           className="flex-1 min-h-[44px] rounded-lg border border-gray-300 px-3 sm:px-4 py-2 text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <button
           onClick={handleSubmit}
+          aria-label="Add todo"
           className="min-h-[44px] min-w-[44px] rounded-lg bg-blue-600 px-3 sm:px-4 py-2 font-medium text-white hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         >
           Add
@@ -61,9 +63,9 @@ export function TodoInput({ onAdd, serverError, onClearServerError, inputRef: ex
       </div>
       <div className="flex justify-between items-center">
         {displayError && (
-          <p className="text-sm text-red-500">{displayError}</p>
+          <p role="alert" className="text-sm text-red-600">{displayError}</p>
         )}
-        <p className={`text-sm ml-auto ${trimmedLength > MAX_DESCRIPTION_LENGTH ? 'text-red-500' : 'text-gray-400'}`}>
+        <p className={`text-sm ml-auto ${trimmedLength > MAX_DESCRIPTION_LENGTH ? 'text-red-600' : 'text-gray-400'}`}>
           {trimmedLength} / {MAX_DESCRIPTION_LENGTH}
         </p>
       </div>

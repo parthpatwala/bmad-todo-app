@@ -61,3 +61,9 @@
 - IME composition: Enter submits mid-composition — pre-existing from Story 1.3; no isComposing guard on onKeyDown handlers.
 - Rapid back-to-back deletes: multiple rAF callbacks compete for focus — last callback wins; acceptable but not coordinated.
 - Error banner: no focus move to banner on error appearance — focus stays on current element; Story 4.2 ARIA/live-region scope.
+
+## Deferred from: code review of story 4-2-screen-reader-support-and-aria-labels (2026-03-30)
+
+- Announcements fire before mutations confirm (optimistic mismatch) — by design: announcements align with optimistic UI; error banner with role="alert" handles failure cases. No corrective "undo" announcement on rollback.
+- Rapid successive announce calls drop intermediate messages — multiple actions before the next paint collapse to a single final announcement; a queue would add complexity for minimal benefit in single-user MVP.
+- No labeled "todo list" when list is empty — EmptyState provides "No todos yet" context; rendering an empty <ul> with aria-label "Todo list, 0 items" would be misleading since there's no list to interact with.

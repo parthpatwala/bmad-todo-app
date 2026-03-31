@@ -15,6 +15,7 @@ export function TodoPage() {
   } = useTodos();
 
   const [fetchErrorDismissed, setFetchErrorDismissed] = useState(false);
+  const [announcement, setAnnouncement] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
   const todoRefs = useRef<Map<number, HTMLInputElement>>(new Map());
 
@@ -22,10 +23,35 @@ export function TodoPage() {
     if (!isError) setFetchErrorDismissed(false);
   }, [isError]);
 
+  const announce = useCallback((message: string) => {
+    setAnnouncement('');
+    requestAnimationFrame(() => {
+      setAnnouncement(message);
+    });
+  }, []);
+
+  const handleAdd = useCallback((description: string) => {
+    addTodo(description);
+    announce(`Todo added: ${description}`);
+  }, [addTodo, announce]);
+
+  const handleToggle = useCallback((id: number, completed: boolean) => {
+    const todo = todos.find(t => t.id === id);
+    toggleTodo(id, completed);
+    if (todo) {
+      announce(`${todo.description} marked as ${completed ? 'complete' : 'incomplete'}`);
+    }
+  }, [todos, toggleTodo, announce]);
+
   const handleDelete = useCallback((id: number) => {
+    const todo = todos.find(t => t.id === id);
     const todoIds = todos.map(t => t.id);
     const deletedIndex = todoIds.indexOf(id);
     deleteTodo(id);
+
+    if (todo) {
+      announce(`Todo deleted: ${todo.description}`);
+    }
 
     requestAnimationFrame(() => {
       const remainingIds = todoIds.filter(tid => tid !== id);
@@ -36,7 +62,7 @@ export function TodoPage() {
         todoRefs.current.get(nextId)?.focus();
       }
     });
-  }, [todos, deleteTodo]);
+  }, [todos, deleteTodo, announce]);
 
   const mutationError = toggleError || deleteError;
   const resetMutationError = toggleError ? resetToggleError : resetDeleteError;
@@ -44,7 +70,7 @@ export function TodoPage() {
 
   return (
     <div className="space-y-6">
-      <TodoInput onAdd={addTodo} serverError={addError} onClearServerError={resetAddError} inputRef={inputRef} />
+      <TodoInput onAdd={handleAdd} serverError={addError} onClearServerError={resetAddError} inputRef={inputRef} />
 
       {isLoading && <LoadingState />}
 
@@ -66,8 +92,12 @@ export function TodoPage() {
       {!isLoading && !isError && todos.length === 0 && <EmptyState />}
 
       {!isLoading && todos.length > 0 && (
-        <TodoList todos={todos} onToggle={toggleTodo} onDelete={handleDelete} todoRefs={todoRefs} />
+        <TodoList todos={todos} onToggle={handleToggle} onDelete={handleDelete} todoRefs={todoRefs} />
       )}
+
+      <div aria-live="polite" aria-atomic="true" className="sr-only">
+        {announcement}
+      </div>
     </div>
   );
 }

@@ -10,7 +10,7 @@ interface TodoListProps {
 
 export function TodoList({ todos, onToggle, onDelete, todoRefs }: TodoListProps) {
   return (
-    <ul className="space-y-2">
+    <ul className="space-y-2" aria-label={`Todo list, ${todos.length} ${todos.length === 1 ? 'item' : 'items'}`}>
       {todos.map((todo) => (
         <TodoItem
           key={todo.id}
