@@ -47,3 +47,10 @@
 - No loading indicator during retry after fetch error — `isLoading` stays false on refetch; would need `isFetching`. UX polish.
 - Fetch error message from API parsed dynamically but hard-coded in TodoPage — user-friendly default is acceptable for MVP.
 - Retry button has no disabled/pending state — rapid clicks can trigger multiple refetches; TanStack Query deduplicates.
+
+## Deferred from: code review of story 3-1-responsive-layout-and-touch-friendly-interactions (2026-03-30)
+
+- ErrorBanner Retry/Dismiss buttons have min-h-[44px] but no min-w-[44px] — text + px-2 padding typically exceeds 44px width, but not guaranteed at all font scales.
+- TodoInput error/counter row: long error text has no break-words or min-w-0 — flex row could overflow with very long validation messages on narrow viewports.
+- ErrorBanner message has no break-words for long unbroken text — long API error URLs could overflow on narrow viewports.
+- AC4 keyboard visibility relies on browser default behavior — no explicit scrollIntoView or viewport handling; works because input is in normal flow at top of page.
