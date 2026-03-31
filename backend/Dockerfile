@@ -24,4 +24,5 @@ COPY --from=frontend-build /app/frontend/dist ./public
 COPY backend/drizzle ./drizzle
 ENV NODE_ENV=production
 EXPOSE 3000
+USER node
 CMD ["node", "dist/server.js"]
