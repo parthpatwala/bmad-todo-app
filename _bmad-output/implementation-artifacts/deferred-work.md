@@ -67,3 +67,10 @@
 - Announcements fire before mutations confirm (optimistic mismatch) — by design: announcements align with optimistic UI; error banner with role="alert" handles failure cases. No corrective "undo" announcement on rollback.
 - Rapid successive announce calls drop intermediate messages — multiple actions before the next paint collapse to a single final announcement; a queue would add complexity for minimal benefit in single-user MVP.
 - No labeled "todo list" when list is empty — EmptyState provides "No todos yet" context; rendering an empty <ul> with aria-label "Todo list, 0 items" would be misleading since there's no list to interact with.
+
+## Deferred from: code review of story 5-1-unit-and-integration-tests (2026-03-31)
+
+- Coverage thresholds not enforced in vitest config — no `coverage.thresholds` setting in backend or frontend vitest.config.ts; manual verification passes but CI won't gate on coverage floor.
+- orderBy arguments never asserted on mock chain — Drizzle mock chain verifies method calls but not the specific arguments (e.g., `asc(todos.createdAt)`); inherent limitation of mocking chainable APIs.
+- Mutation error fields and rollback stay untested in useTodos — hook tests verify mutations fire correctly but don't test `addError`, `toggleError`, `deleteError` fields or optimistic update rollback behavior.
+- Frontend API tests missing network error tests (fetch throws) — tests mock `fetch` to return error responses but never test `fetch` itself rejecting (network failure); source code has no explicit network error handling.
