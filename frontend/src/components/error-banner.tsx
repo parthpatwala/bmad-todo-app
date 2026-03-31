@@ -13,7 +13,7 @@ export function ErrorBanner({ message, onDismiss, onRetry }: ErrorBannerProps) {
           <button
             type="button"
             onClick={onRetry}
-            className="min-h-[44px] px-2 text-sm font-medium text-red-700 hover:text-red-900"
+            className="min-h-[44px] px-2 text-sm font-medium text-red-700 hover:text-red-900 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
           >
             Retry
           </button>
@@ -21,7 +21,7 @@ export function ErrorBanner({ message, onDismiss, onRetry }: ErrorBannerProps) {
         <button
           type="button"
           onClick={onDismiss}
-          className="min-h-[44px] px-2 text-sm text-red-400 hover:text-red-600"
+          className="min-h-[44px] px-2 text-sm text-red-400 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
         >
           Dismiss
         </button>

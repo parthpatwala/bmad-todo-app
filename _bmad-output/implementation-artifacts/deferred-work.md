@@ -54,3 +54,10 @@
 - TodoInput error/counter row: long error text has no break-words or min-w-0 — flex row could overflow with very long validation messages on narrow viewports.
 - ErrorBanner message has no break-words for long unbroken text — long API error URLs could overflow on narrow viewports.
 - AC4 keyboard visibility relies on browser default behavior — no explicit scrollIntoView or viewport handling; works because input is in normal flow at top of page.
+
+## Deferred from: code review of story 4-1-keyboard-navigation-and-focus-management (2026-03-30)
+
+- Optimistic delete rollback doesn't restore focus — if delete API fails and onError restores the item, focus has already moved to next row; low probability in single-user MVP.
+- IME composition: Enter submits mid-composition — pre-existing from Story 1.3; no isComposing guard on onKeyDown handlers.
+- Rapid back-to-back deletes: multiple rAF callbacks compete for focus — last callback wins; acceptable but not coordinated.
+- Error banner: no focus move to banner on error appearance — focus stays on current element; Story 4.2 ARIA/live-region scope.

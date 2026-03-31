@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-03-30
-last_updated: 2026-03-30T19:45:00
+last_updated: 2026-03-30T20:45:00
 project: bmad-todo-app
 project_key: NOKEY
 tracking_system: file-system
@@ -61,8 +61,8 @@ development_status:
   epic-3-retrospective: optional
 
   # Epic 4: Accessibility
-  epic-4: backlog
-  4-1-keyboard-navigation-and-focus-management: backlog
+  epic-4: in-progress
+  4-1-keyboard-navigation-and-focus-management: done
   4-2-screen-reader-support-and-aria-labels: backlog
   epic-4-retrospective: optional
 

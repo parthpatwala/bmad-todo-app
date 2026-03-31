@@ -1,15 +1,18 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { MAX_DESCRIPTION_LENGTH } from '../api/todo-api';
 
 interface TodoInputProps {
   onAdd: (description: string) => void;
   serverError?: string | null;
   onClearServerError?: () => void;
+  inputRef?: React.RefObject<HTMLInputElement | null>;
 }
 
-export function TodoInput({ onAdd, serverError, onClearServerError }: TodoInputProps) {
+export function TodoInput({ onAdd, serverError, onClearServerError, inputRef: externalRef }: TodoInputProps) {
   const [description, setDescription] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const internalRef = useRef<HTMLInputElement>(null);
+  const ref = externalRef ?? internalRef;
 
   const handleSubmit = () => {
     const trimmed = description.trim();
@@ -25,6 +28,7 @@ export function TodoInput({ onAdd, serverError, onClearServerError }: TodoInputP
     onClearServerError?.();
     onAdd(trimmed);
     setDescription('');
+    ref.current?.focus();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -40,6 +44,7 @@ export function TodoInput({ onAdd, serverError, onClearServerError }: TodoInputP
     <div className="space-y-2">
       <div className="flex gap-2">
         <input
+          ref={ref}
           type="text"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
@@ -49,7 +54,7 @@ export function TodoInput({ onAdd, serverError, onClearServerError }: TodoInputP
         />
         <button
           onClick={handleSubmit}
-          className="min-h-[44px] min-w-[44px] rounded-lg bg-blue-600 px-3 sm:px-4 py-2 font-medium text-white hover:bg-blue-700 transition-colors"
+          className="min-h-[44px] min-w-[44px] rounded-lg bg-blue-600 px-3 sm:px-4 py-2 font-medium text-white hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         >
           Add
         </button>

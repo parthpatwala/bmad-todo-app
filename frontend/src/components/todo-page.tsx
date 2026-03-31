@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useTodos } from '../hooks/use-todos';
 import { TodoInput } from './todo-input';
 import { TodoList } from './todo-list';
@@ -15,10 +15,28 @@ export function TodoPage() {
   } = useTodos();
 
   const [fetchErrorDismissed, setFetchErrorDismissed] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const todoRefs = useRef<Map<number, HTMLInputElement>>(new Map());
 
   useEffect(() => {
     if (!isError) setFetchErrorDismissed(false);
   }, [isError]);
+
+  const handleDelete = useCallback((id: number) => {
+    const todoIds = todos.map(t => t.id);
+    const deletedIndex = todoIds.indexOf(id);
+    deleteTodo(id);
+
+    requestAnimationFrame(() => {
+      const remainingIds = todoIds.filter(tid => tid !== id);
+      if (remainingIds.length === 0) {
+        inputRef.current?.focus();
+      } else {
+        const nextId = remainingIds[Math.min(deletedIndex, remainingIds.length - 1)];
+        todoRefs.current.get(nextId)?.focus();
+      }
+    });
+  }, [todos, deleteTodo]);
 
   const mutationError = toggleError || deleteError;
   const resetMutationError = toggleError ? resetToggleError : resetDeleteError;
@@ -26,7 +44,7 @@ export function TodoPage() {
 
   return (
     <div className="space-y-6">
-      <TodoInput onAdd={addTodo} serverError={addError} onClearServerError={resetAddError} />
+      <TodoInput onAdd={addTodo} serverError={addError} onClearServerError={resetAddError} inputRef={inputRef} />
 
       {isLoading && <LoadingState />}
 
@@ -48,7 +66,7 @@ export function TodoPage() {
       {!isLoading && !isError && todos.length === 0 && <EmptyState />}
 
       {!isLoading && todos.length > 0 && (
-        <TodoList todos={todos} onToggle={toggleTodo} onDelete={deleteTodo} />
+        <TodoList todos={todos} onToggle={toggleTodo} onDelete={handleDelete} todoRefs={todoRefs} />
       )}
     </div>
   );
