@@ -74,3 +74,9 @@
 - orderBy arguments never asserted on mock chain — Drizzle mock chain verifies method calls but not the specific arguments (e.g., `asc(todos.createdAt)`); inherent limitation of mocking chainable APIs.
 - Mutation error fields and rollback stay untested in useTodos — hook tests verify mutations fire correctly but don't test `addError`, `toggleError`, `deleteError` fields or optimistic update rollback behavior.
 - Frontend API tests missing network error tests (fetch throws) — tests mock `fetch` to return error responses but never test `fetch` itself rejecting (network failure); source code has no explicit network error handling.
+
+## Deferred from: code review of story 5-2-end-to-end-tests-with-playwright (2026-03-31)
+
+- `beforeEach` cleanup doesn't assert GET/DELETE response status — API cleanup in E2E tests doesn't verify response ok(), which could silently fail and leak state between tests.
+- Duplicated `beforeEach` block across two spec files — identical 8-line cleanup block in `todo-crud.spec.ts` and `todo-validation.spec.ts`; could be extracted to a shared Playwright fixture.
+- Story task 1.5 root-level `test:e2e` script not added — the `cd e2e && npx playwright test` command is documented in the dev record but no root package.json script was added.
