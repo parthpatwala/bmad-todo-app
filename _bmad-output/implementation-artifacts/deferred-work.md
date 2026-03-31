@@ -80,3 +80,7 @@
 - `beforeEach` cleanup doesn't assert GET/DELETE response status — API cleanup in E2E tests doesn't verify response ok(), which could silently fail and leak state between tests.
 - Duplicated `beforeEach` block across two spec files — identical 8-line cleanup block in `todo-crud.spec.ts` and `todo-validation.spec.ts`; could be extracted to a shared Playwright fixture.
 - Story task 1.5 root-level `test:e2e` script not added — the `cd e2e && npx playwright test` command is documented in the dev record but no root package.json script was added.
+
+## Deferred from: code review of story 5-3-production-docker-build-and-deployment (2026-03-31)
+
+- Docker image runs as root — production stage has no `USER` directive; process runs as root. Add non-root user for security hardening before real deployment.

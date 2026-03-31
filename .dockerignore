@@ -1,0 +1,12 @@
+**/node_modules
+**/dist
+**/__tests__
+**/*.test.ts
+**/*.test.tsx
+**/*.spec.ts
+.env
+e2e
+_bmad
+_bmad-output
+.cursor
+.git
