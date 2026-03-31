@@ -1,0 +1,11 @@
+- generic [ref=e4]:
+  - heading "bmad-todo-app" [level=1] [ref=e5]
+  - paragraph [ref=e6]: Manage your tasks.
+  - generic [ref=e7]:
+    - generic [ref=e8]:
+      - generic [ref=e9]:
+        - textbox "New todo description" [ref=e10]:
+          - /placeholder: What needs to be done?
+        - button "Add todo" [ref=e11]: Add
+      - paragraph [ref=e13]: 0 / 500
+    - paragraph [ref=e23]: No todos yet. Add one above!

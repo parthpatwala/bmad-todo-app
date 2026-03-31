@@ -1,0 +1,16 @@
+- generic [ref=e4]:
+  - heading "bmad-todo-app" [level=1] [ref=e5]
+  - paragraph [ref=e6]: Manage your tasks.
+  - generic [ref=e7]:
+    - generic [ref=e8]:
+      - generic [ref=e9]:
+        - textbox "New todo description" [active] [ref=e10]:
+          - /placeholder: What needs to be done?
+        - button "Add todo" [ref=e11]: Add
+      - paragraph [ref=e13]: 0 / 500
+    - list "Todo list, 1 item" [ref=e29]:
+      - listitem [ref=e30]:
+        - checkbox "Mark \"Valid todo after validation error\" as complete" [ref=e32]
+        - generic [ref=e33]: Valid todo after validation error
+        - button "Delete \"Valid todo after validation error\"" [ref=e34]: Delete
+    - generic [ref=e16]: "Todo added: Valid todo after validation error"

@@ -84,3 +84,15 @@
 ## Deferred from: code review of story 5-3-production-docker-build-and-deployment (2026-03-31)
 
 - Docker image runs as root — production stage has no `USER` directive; process runs as root. Add non-root user for security hardening before real deployment.
+
+## Deferred from: API contract validation session (2026-03-31)
+
+- Pin MCP server versions in `.cursor/mcp.json` — currently using `@latest` which can drift; pin to specific versions for reproducibility across team environments.
+- Extend API contract validation to cover Content-Type/malformed JSON, unsupported HTTP methods, and CORS behavior for fuller contract coverage.
+- Add README note on `.cursor/mcp.json` — document that MCP servers are optional tooling for AI-assisted workflows and not required for contributors.
+
+## Deferred from: frontend DevTools inspection (2026-03-31)
+
+- Measure touch target bounding boxes at runtime — current verification relies on Tailwind class enforcement (`min-h-[44px]`, `min-w-[44px]`). A runtime measurement via DevTools or Lighthouse tap-target audit would provide independent verification.
+- Extend DevTools inspection to cover error, loading, and validation states — current inspection covers happy path only. Error banner, loading spinner, and validation error states are covered by E2E and unit tests but not by this DevTools session.
+- Update `<title>` in `frontend/index.html` — currently "frontend" (Vite scaffold default). Should be "bmad-todo-app" for better browser tab and screen reader identification.
