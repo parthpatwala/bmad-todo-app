@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@fastify/cors": "^11",
-    "@fastify/static": "^8",
+    "@fastify/static": "^9",
     "cross-env": "^7",
     "drizzle-orm": "^0.40",
     "fastify": "^5.8",
